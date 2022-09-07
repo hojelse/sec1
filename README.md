@@ -13,7 +13,7 @@ vagrant up
 ```
 
 ```
-vagrant ssh-config > ~/.ssh/config
+vagrant ssh-config >> ~/.ssh/config
 ```
 
 In vs code `ctrl+shift+p` and select "Remote-SSH: Connect to host"
