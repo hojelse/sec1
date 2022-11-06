@@ -91,11 +91,6 @@ priv:46686 msg:2000
 
 ## Part 3
 
-Since I intercepted the message, I see no reason why I should consider
-that ciphertext and not just create a new message from scratch.
-
-I can do that by the following.
-
 Mallory chooses a random number from 0 to p-1
 ```csharp
 int priv = elgamal.GeneratePriv();
@@ -105,11 +100,17 @@ public key
 ```csharp
 int pub = elgamal.GeneratePub(priv);
 ```
-Encrypt the message "6000" using Mallory's private key and Bob's public
+Encrypt the message "2000" using Mallory's private key and Bob's public
 key
 ```csharp
-int cipher = elgamal.Encrypt(6000, 2227, priv);
+int cipher = elgamal.Encrypt(2000, 2227, priv);
 WriteLine($"cipher: {cipher}");
+```
+Since elgamal is malleable and, assuming we know the original cleartext
+is '2000', can we simply multiply the cipher by 3, and then the cipher will
+decrypt to the cleartext '6000'
+```csharp
+int modified = cipher * 3;
 ```
 We can check if we retrieve the correct clear text, when Bob decrypts the
 cipher, by one of the cracked private keys of Bob from part 2
@@ -119,6 +120,6 @@ WriteLine($"clear: {elgamal.Decrypt(cipher, pub, 66)}");
 
 Output:
 ```
-cipher: 9510000
+cipher: 8706000
 clear: 6000
 ```

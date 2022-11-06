@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
 using static System.Console;
 
 class MainClass
@@ -77,11 +79,6 @@ class MainClass
   {
     WriteLine("## 1.3");
 
-    // Since I intercepted the message, I see no reason why I should consider
-    // that ciphertext and not just create a new message from scratch.
-
-    // I can do that by the following.
-
     // Mallory chooses a random number from 0 to p-1
     int priv = elgamal.GeneratePriv();
     // Apply Mallory's private key to the function `x => g^x mod p` to get the
@@ -90,13 +87,18 @@ class MainClass
 
     // Encrypt the message "6000" using Mallory's private key and Bob's public
     // key
-    int cipher = elgamal.Encrypt(6000, 2227, priv);
+    int cipher = elgamal.Encrypt(2000, 2227, priv);
 
-    WriteLine($"cipher: {cipher}");
+    // Since elgamal is malleable and, assuming we know the original cleartext
+    // is '2000', can we simply multiply the cipher by 3, and thereby decrypt to
+    // the message '6000'
+    int modified = cipher * 3;
+
+    WriteLine($"cipher: {modified}");
 
     // We can check if we retrieve the correct clear text, when Bob decrypts the
     // cipher, by one of the cracked private keys of Bob from part 2
-    WriteLine($"clear: {elgamal.Decrypt(cipher, pub, 66)}");
+    WriteLine($"clear: {elgamal.Decrypt(modified, pub, 66)}");
   }
 
   static void Main(string[] args)
