@@ -24,34 +24,41 @@ Hash based Commitments over TLS.
 TLS uses cryptography to create a secure channel that ensures, Authenticity,
 Integrity and Confidentiality.
 
-I use a node library to set up a server and a client with two-way tls.
+I use a library node:tls to set up a server/client session with two-way
+authentication.
 
-I use openssl to generate certificates for tls
+I use openssl to generate certificates for tls.
 
 ### Hash based Commitments
 
 Alice and Bob, decide on a Cryptographic Hash Function $H$ a number $k$ and a
-function $R: n,m \to x$ where $n$ and $m$ is bit strings and $x$ is a number
-between 1 and 6.
+function $R: n,m \to x$ where $n$ and $m$ is numbers in the range 1-6 and $x$ 
+is a number between 1 and 6.
 
-Alice and Bob agrees on $R: n,m \to 1 + ((n \oplus m) \mod 6)$
+- I've chosen $H$ to be System.Security.Cryptography.SHA512::ComputeHash from
+dotnet.
+- I've chosen $k$ to be 512
+- I've chosen $R : n,m \to 1 + (((n-1) + (m-1)) \mod 6)$
 
-Alice generates a random number encoded as a bit string $m$ of length $k$
+Alice generates a random number $m$
 
-Alice generates a bit string with random noise $r$
+Alice generates a salt $s$ of length $k-1$
 
-Alice concatenates $r$ and $m$ to get $r|m$
+Alice concatenates $s$ and $m$ to get $s|m$
 
-Alice hashes $r|m$ with $H$ to get $H(r|m) = c$
+Alice hashes $s|m$ with $H$ to get $H(s|m) = c$
 
 Alice sends $c$ to Bob
 
-Bob generates a random number encoded as a bit string $n$ of length $k$
+Bob generates a a random number $n$
 
 Bob send $n$ to Alice
 
-Alice sends $r|m$
+Alice sends $s$ to Bob
 
-Bob uses $r|m$ to compute $H(r|m)$ and compares to the previous message $c$
+Bob uses $s$ and the previous message containing $m$ to compute $H(s|m)$ and
+compares to the previous message $c$
 
 Alice and Bob computes the dice outcome $R(m,n)$
+
+All messages are sent over TLS
