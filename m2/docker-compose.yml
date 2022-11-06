@@ -1,12 +1,16 @@
 version: "3"
 services:
   server:
-    build: server/
+    build:
+      context: .
+      dockerfile: server.Dockerfile
     ports:
       - 8000:8000
     network_mode: host
   client:
-    build: client/
+    build:
+      context: .
+      dockerfile: client.Dockerfile
     network_mode: host
     depends_on:
       - server

@@ -4,13 +4,14 @@
 
 Hash based Commitments over TLS.
 
-- Integrity: HMAC (SHA3)
-- Authenticity and Confidentiallity: Diffie-Hellman to AES
-
 ### TLS
 
 TLS uses cryptography to create a secure channel that ensures, Authenticity,
 Integrity and Confidentiality.
+
+I use a node library to set up a server and a client with two-way tls.
+
+I use openssl to generate certificates for tls
 
 ### Hash based Commitments
 
