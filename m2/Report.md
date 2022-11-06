@@ -4,6 +4,9 @@
 
 Hash based Commitments over TLS.
 
+- Integrity: HMAC (SHA3)
+- Authenticity and Confidentiallity: Diffie-Hellman to AES
+
 ### TLS
 
 TLS uses cryptography to create a secure channel that ensures, Authenticity,
