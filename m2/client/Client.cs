@@ -36,6 +36,6 @@ class Client
     RedirectStandardOutput = true,
     RedirectStandardError = true,
     FileName = "node",
-    Arguments = "./xclient.js",
+    Arguments = "./client.js",
   };
 }

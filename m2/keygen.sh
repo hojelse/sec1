@@ -1,20 +1,15 @@
 # Prepare
-openssl req -new -x509 -days 99 -keyout ca-key.pem -out ca-crt.pem
-# ca_password=qY2EvezssnBeaodsjxU
-# ca_cn=ca.localhost
+openssl req -new -x509 -days 99 -keyout ca-key.pem -out ca-crt.pem -subj '/CN=ca.localhost' -passout pass:qY2EvezssnBeaodsjxU
 
 ### SERVER ###
 # Server key
 openssl genrsa -out server-key.pem 4096
 
 # Server cert sign req
-openssl req -new -key server-key.pem -out server-csr.pem
-# ca_cn=localhost
-# ca_password=
+openssl req -new -key server-key.pem -out server-csr.pem -subj '/CN=localhost'
 
 # Sign
-openssl x509 -req -days 99 -in server-csr.pem -CA ca-crt.pem -CAkey ca-key.pem -CAcreateserial -out server-crt.pem
-# ca_password=qY2EvezssnBeaodsjxU
+openssl x509 -req -days 99 -in server-csr.pem -CA ca-crt.pem -CAkey ca-key.pem -CAcreateserial -out server-crt.pem -passin pass:qY2EvezssnBeaodsjxU
 
 # Verify
 openssl verify -CAfile ca-crt.pem server-crt.pem
@@ -31,13 +26,10 @@ cp ca-key.pem ./server/
 openssl genrsa -out client1-key.pem 4096
 
 # Client cert sign req
-openssl req -new -key client1-key.pem -out client1-csr.pem
-# cn=client.localhost
-# ca_password=qY2EvezssnBeaodsjxU
+openssl req -new -key client1-key.pem -out client1-csr.pem -subj '/CN=client.localhost' -passout pass:qY2EvezssnBeaodsjxU
 
 # Sign
-openssl x509 -req -days 1 -in client1-csr.pem -CA ca-crt.pem -CAkey ca-key.pem -CAcreateserial -out client1-crt.pem
-# ca_password=qY2EvezssnBeaodsjxU
+openssl x509 -req -days 99 -in client1-csr.pem -CA ca-crt.pem -CAkey ca-key.pem -CAcreateserial -out client1-crt.pem -passin pass:qY2EvezssnBeaodsjxU
 
 # Verify
 openssl verify -CAfile ca-crt.pem client1-crt.pem

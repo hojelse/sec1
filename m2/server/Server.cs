@@ -35,6 +35,6 @@ class Server
     RedirectStandardOutput = true,
     RedirectStandardError = true,
     FileName = "node",
-    Arguments = "./xserver.js"
+    Arguments = "./server.js"
   };
 }
