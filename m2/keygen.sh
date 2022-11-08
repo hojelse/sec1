@@ -1,14 +1,16 @@
-# Prepare
+# Adapted from source: https://engineering.circle.com/https-authorized-certs-with-node-js-315e548354a2#.24nmlit7w
+
+# Create a new certificate authority
 openssl req -new -x509 -days 99 -keyout ca-key.pem -out ca-crt.pem -subj '/CN=ca.localhost' -passout pass:qY2EvezssnBeaodsjxU
 
 ### SERVER ###
-# Server key
+# Server private key
 openssl genrsa -out server-key.pem 4096
 
-# Server cert sign req
+# Server certificate signing request
 openssl req -new -key server-key.pem -out server-csr.pem -subj '/CN=localhost'
 
-# Sign
+# Sign the request using the certificate authority
 openssl x509 -req -days 99 -in server-csr.pem -CA ca-crt.pem -CAkey ca-key.pem -CAcreateserial -out server-crt.pem -passin pass:qY2EvezssnBeaodsjxU
 
 # Verify
@@ -22,13 +24,13 @@ cp ca-crt.srl ./server/
 cp ca-key.pem ./server/
 
 ### CLIENT ###
-# Client key
+# Client private key
 openssl genrsa -out client1-key.pem 4096
 
-# Client cert sign req
+# Client certificate signing request
 openssl req -new -key client1-key.pem -out client1-csr.pem -subj '/CN=client.localhost' -passout pass:qY2EvezssnBeaodsjxU
 
-# Sign
+# Sign the request using the certificate authority
 openssl x509 -req -days 99 -in client1-csr.pem -CA ca-crt.pem -CAkey ca-key.pem -CAcreateserial -out client1-crt.pem -passin pass:qY2EvezssnBeaodsjxU
 
 # Verify
