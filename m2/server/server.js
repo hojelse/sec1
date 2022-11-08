@@ -5,7 +5,10 @@ const options = {
     key: fs.readFileSync('server-key.pem'), 
     cert: fs.readFileSync('server-crt.pem'), 
     ca: fs.readFileSync('ca-crt.pem'), 
-    requestCert: true, 
+    // Servers may set requestCert to true to request a client certificate
+    requestCert: true,
+    // The server will reject any connection which is not authorized
+    // with the list of supplied CAs
     rejectUnauthorized: true
 }; 
 

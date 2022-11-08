@@ -21,7 +21,7 @@ public static class HashBasedCommitments
     return buf;
   }
 
-  // Concatenate salt and dice, and the hashing to a 512bit byte array
+  // Concatenates salt and dice, and then hashes to a 512bit byte array
   public static byte[] GenerateCommitmentHash(int dice, byte[] salt)
   {
     var l = salt.Length;
@@ -57,7 +57,7 @@ public static class HashBasedCommitments
     return 1 + (((clientDice-1) + (serverDice-1)) % 6);
   }
 
-  // Compare an excisting hash to a new hash from a salt and a dice roll
+  // Compare an existing hash to a new hash from a salt and a dice roll
   public static bool MatchesCommitment(byte[] commitmentHash, byte[] salt, int clientDice)
   {
     return Encode(commitmentHash) == Encode(GenerateCommitmentHash(clientDice, salt));
